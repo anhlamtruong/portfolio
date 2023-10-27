@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-
+import { useStyles } from "@/hooks/useStyles";
 interface SidebarItemProps {
   icon: LucideIcon;
   label: string;
@@ -13,6 +13,8 @@ interface SidebarItemProps {
 const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
   const pathname = usePathname();
   const router = useRouter();
+
+  const styles = useStyles();
 
   const isActive =
     (pathname === "/" && href === "/") ||
