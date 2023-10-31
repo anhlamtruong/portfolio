@@ -2,7 +2,9 @@
 
 import { Layout, Compass } from "lucide-react";
 import SidebarItem from "./sidebar-item";
-
+import ThemeSwitcher from "@/components/ui/theme_switcher";
+import { useStyles } from "@/hooks/useStyles";
+import { useMemo } from "react";
 const guestRoutes = [
   {
     icon: Layout,
@@ -28,9 +30,9 @@ const guestRoutes = [
 
 const SidebarRoutes = () => {
   const routes = guestRoutes;
-
+  const styles = useStyles();
   return (
-    <div className="flex flex-col w-full">
+    <div style={styles.backgroundPrimary} className="flex flex-col w-full ">
       {routes.map((route) => (
         <SidebarItem
           key={route.href}
@@ -39,6 +41,9 @@ const SidebarRoutes = () => {
           href={route.href}
         />
       ))}
+      <div>
+        <ThemeSwitcher />
+      </div>
     </div>
   );
 };
