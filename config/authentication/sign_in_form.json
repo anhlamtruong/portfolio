@@ -1,0 +1,44 @@
+{
+  "variants": {
+    "LOGIN": {
+      "fields": [
+        {
+          "name": "username",
+          "label": "Username",
+          "placeholder": "Username",
+          "description": "This is your public display name."
+        },
+        {
+          "name": "password",
+          "label": "Password",
+          "placeholder": "Your password",
+          "description": "Enter your password here."
+        }
+      ],
+      "submitButtonLabel": "Login"
+    },
+    "REGISTER": {
+      "fields": [
+        {
+          "name": "username",
+          "label": "Username",
+          "placeholder": "Username",
+          "description": "This is your public display name."
+        },
+        {
+          "name": "email",
+          "label": "Email",
+          "placeholder": "cookit@lovetocook.com",
+          "description": "Enter your email here."
+        },
+        {
+          "name": "password",
+          "label": "Password",
+          "placeholder": "Your password",
+          "description": "Enter your password here."
+        }
+      ],
+      "submitButtonLabel": "Register"
+    }
+  }
+}
