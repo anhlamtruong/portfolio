@@ -17,14 +17,15 @@ import { Button } from "@/components/ui/button";
 import { SignInForm } from "@/config/authentication/sign_in_form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icons } from "@/components/ui/icons";
+import { useStyles } from "@/hooks/useStyles";
 
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
   const [config, setConfig] = useState<SignInForm | null>(null);
-
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+  const styles = useStyles();
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
@@ -56,15 +57,18 @@ const AuthForm = () => {
     formState: { errors },
   } = authForm;
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
       // Axios Register
     }
+    console.log(data);
     if (variant === "LOGIN") {
       // NextAuth Sign In
     }
+    console.log("test");
+    setIsLoading(false);
   };
 
   const socialAction = (action: string) => {
@@ -73,7 +77,7 @@ const AuthForm = () => {
   };
 
   return (
-    <div className=" flex flex-col gap-4 w-full">
+    <div className="justify-center self-center items-center flex flex-col gap-4 w-full">
       <Form {...authForm}>
         <form onSubmit={authForm.handleSubmit(onSubmit)} className="space-y-2">
           {variant === "LOGIN" &&
@@ -98,7 +102,7 @@ const AuthForm = () => {
                           register={register}
                           autoCorrect="off"
                           errors={errors}
-                          disabled={false}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormDescription>{f.description}</FormDescription>
@@ -130,7 +134,7 @@ const AuthForm = () => {
                           register={register}
                           autoCorrect="off"
                           errors={errors}
-                          disabled={false}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormDescription>{f.description}</FormDescription>
@@ -150,7 +154,10 @@ const AuthForm = () => {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            {formConfig.variants.LOGIN.submitButtonLabel} with Email
+            {variant === "LOGIN"
+              ? formConfig.variants.LOGIN.submitButtonLabel
+              : formConfig.variants.REGISTER.submitButtonLabel}{" "}
+            with Email
           </Button>
         </form>
       </Form>
@@ -164,19 +171,40 @@ const AuthForm = () => {
           </span>
         </div>
       </div>
-      <Button
-        fullWidth={true}
-        variant="outline"
-        type="button"
-        disabled={isLoading}
+      <div className="flex justify-between gap-3">
+        <Button
+          fullWidth={true}
+          variant="outline"
+          type="button"
+          disabled={isLoading}
+        >
+          <Icons.gitHub className="mr-2 h-4 w-4" /> Github
+        </Button>
+        <Button
+          fullWidth={true}
+          variant="outline"
+          type="button"
+          disabled={isLoading}
+        >
+          <Icons.google className="mr-2 h-4 w-4" /> Google
+        </Button>
+      </div>
+      <div
+        style={styles.textTertiary}
+        className="flex gap-1 justify-center text-sm mt-1 px-2"
       >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </Button>
+        <div>
+          {variant === "LOGIN"
+            ? "New to Cookit ?"
+            : "Already have an account ?"}
+        </div>
+        <div
+          onClick={toggleVariant}
+          className="hover:underline underline-offset-2 cursor-pointer"
+        >
+          {variant === "LOGIN" ? "Create an account" : "Login"}
+        </div>
+      </div>
     </div>
   );
 };
