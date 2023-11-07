@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import formConfig from "@/config/authentication/sign_in_form.json"; // adjust the import path accordingly
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   Form,
@@ -62,6 +63,7 @@ const AuthForm = () => {
 
     if (variant === "REGISTER") {
       // Axios Register
+      axios.post("/api/register", data);
     }
     console.log(data);
     if (variant === "LOGIN") {

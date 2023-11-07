@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:prisma-mysql": "npx prisma generate --schema=./prisma/mysql/schema.prisma",
+    "generate:prisma-mongo": "npx prisma generate --schema=./prisma/mongodb/schema.prisma",
+    "generate:prisma-all": "npm run generate:prisma-mysql && npm run generate:prisma-mongo"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -21,6 +24,7 @@
     "@types/react": "18.2.29",
     "@types/react-dom": "18.2.13",
     "autoprefixer": "10.4.16",
+    "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",

@@ -133,3 +133,7 @@ Defines possible states for a user's account.
 ---
 
 This documentation provides a comprehensive guide to the structure defined by the Prisma schema for a MongoDB database. It covers models, fields, relationships, and enumerations that together form the database design for an application with user authentication and messaging features.
+
+npx prisma generate --schema=./prisma/mongodb/schema.prisma
+
+npx prisma db push --schema=./prisma/mongodb/schema.prisma
