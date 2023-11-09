@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useTheme, Theme } from "../../contexts/ThemeContext";
+import { useTheme, Theme } from "../../contexts/user_page/ThemeContext";
 
 const ThemeSwitcher: React.FC = () => {
   const { theme, setTheme, themeColors } = useTheme();

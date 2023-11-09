@@ -19,6 +19,8 @@ import { SignInForm } from "@/config/authentication/sign_in_form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icons } from "@/components/ui/icons";
 import { useStyles } from "@/hooks/useStyles";
+import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -62,14 +64,33 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
+      console.log("Register RUNNING");
       // Axios Register
-      axios.post("/api/register", data);
+      axios
+        .post("/api/register", data)
+        .catch(() => toast.error("Something went wrong!"))
+        .finally(() => setIsLoading(false));
     }
     console.log(data);
     if (variant === "LOGIN") {
       // NextAuth Sign In
+      console.log("Start Login");
+      const { name, ...noNameData } = data;
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Invalid credentials");
+          }
+          if (callback?.ok || !callback?.error) {
+            toast.success("Good ?");
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
-    console.log("test");
+
     setIsLoading(false);
   };
 

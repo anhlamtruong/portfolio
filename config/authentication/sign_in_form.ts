@@ -23,4 +23,5 @@ export interface Field {
   label: string;
   placeholder: string;
   description: string;
+  email?: string;
 }

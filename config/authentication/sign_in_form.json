@@ -3,14 +3,14 @@
     "LOGIN": {
       "fields": [
         {
-          "name": "username",
-          "label": "Username",
-          "placeholder": "Username",
-          "description": "This is your public display name."
+          "name": "email",
+          "label": "email",
+          "placeholder": "Email address",
+          "description": "Please enter your email address"
         },
         {
           "name": "password",
-          "label": "Password",
+          "label": "password",
           "placeholder": "Your password",
           "description": "Enter your password here."
         }

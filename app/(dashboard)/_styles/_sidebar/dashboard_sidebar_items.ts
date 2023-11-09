@@ -1,4 +1,4 @@
-import { ThemeObjectsProps } from "@/contexts/ThemeContext";
+import { ThemeObjectsProps } from "@/contexts/user_page/ThemeContext";
 
 export const sidebarItemStyles = (theme: ThemeObjectsProps) => ({
   sidebarItem: {

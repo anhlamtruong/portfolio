@@ -7,12 +7,9 @@ import { UserStatus } from "@prisma/client";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, name, password, username } = body;
-    console.log(email, name, password);
-    console.log(body);
+    const { email, password, username } = body;
 
-    if (!email || !name || !password) {
-      console.log("Hud ?");
+    if (!email || !username || !password) {
       return new NextResponse("Missing information", {
         status: 404,
         statusText: "Missing information from user",
@@ -24,7 +21,7 @@ export async function POST(request: Request) {
     const user = await prismaMongoDb.user.create({
       data: {
         email,
-        name,
+        username,
         hashedPassword,
         status: UserStatus.ACTIVE,
       },

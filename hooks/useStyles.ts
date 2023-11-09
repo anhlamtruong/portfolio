@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTheme } from "../contexts/ThemeContext";
+import { useTheme } from "../contexts/user_page/ThemeContext";
 import { sidebarItemStyles } from "@/app/(dashboard)/_styles/dashboard_styles";
 
 export const useStyles = () => {
