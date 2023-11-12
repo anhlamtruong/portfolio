@@ -20,15 +20,39 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Icons } from "@/components/ui/icons";
 import { useStyles } from "@/hooks/useStyles";
 import { toast } from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
+  const session = useSession();
+  const styles = useStyles();
+  const router = useRouter();
+
   const [config, setConfig] = useState<SignInForm | null>(null);
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
-  const styles = useStyles();
+  const [isSessionLoading, setSessionIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (session?.status === "loading") {
+      setSessionIsLoading(true);
+    }
+    if (session?.status === "unauthenticated") {
+      setSessionIsLoading(false);
+    }
+    if (session?.status === "authenticated") {
+      setSessionIsLoading(false);
+      router.push("/profile");
+    }
+  }, [session?.status, router]);
+
+  useEffect(() => {
+    // Load the configuration (assuming it's a local JSON file)
+    setConfig(formConfig as SignInForm);
+  }, []);
+
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
@@ -44,10 +68,6 @@ const AuthForm = () => {
       password: "",
     },
   });
-  useEffect(() => {
-    // Load the configuration (assuming it's a local JSON file)
-    setConfig(formConfig as SignInForm);
-  }, []);
 
   if (!config) {
     return <Skeleton className="w-[100px] h-[20px] rounded-full" />; // or some loading indicator
@@ -64,19 +84,18 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
-      console.log("Register RUNNING");
       // Axios Register
       axios
         .post("/api/register", data)
+        .then(() => signIn("credentials", data))
         .catch(() => toast.error("Something went wrong!"))
         .finally(() => setIsLoading(false));
     }
     console.log(data);
     if (variant === "LOGIN") {
       // NextAuth Sign In
-      console.log("Start Login");
-      const { name, ...noNameData } = data;
-      signIn("credentials", {
+
+      await signIn("credentials", {
         ...data,
         redirect: false,
       })
@@ -85,7 +104,8 @@ const AuthForm = () => {
             toast.error("Invalid credentials");
           }
           if (callback?.ok || !callback?.error) {
-            toast.success("Good ?");
+            toast.success("Logged in successfully 🎉");
+            router.push("/profile");
           }
         })
         .finally(() => setIsLoading(false));
@@ -94,13 +114,31 @@ const AuthForm = () => {
     setIsLoading(false);
   };
 
-  const socialAction = (action: string) => {
+  const socialAction = async (action: string) => {
     setIsLoading(true);
     // Next Auth Social Sign In
+    toast.loading("Authenticating, please wait...");
+    // Next Auth Social Sign In
+    await signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          // If there's an error, show an error toast
+          toast.error("Invalid credentials");
+        } else {
+          // If sign in is successful, show a success toast
+          toast.success(`Sign in successfully with ${action}🎉`);
+          router.push("/profile");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false); // Stop loading state regardless of the result
+      });
   };
 
-  return (
-    <div className="justify-center self-center items-center flex flex-col gap-4 w-full">
+  return isSessionLoading === true ? (
+    <Skeleton />
+  ) : (
+    <div className="justify-center self-center items-center flex flex-col gap-4 w-full h-full">
       <Form {...authForm}>
         <form onSubmit={authForm.handleSubmit(onSubmit)} className="space-y-2">
           {variant === "LOGIN" &&
@@ -199,6 +237,7 @@ const AuthForm = () => {
           fullWidth={true}
           variant="outline"
           type="button"
+          onClick={() => socialAction("github")}
           disabled={isLoading}
         >
           <Icons.gitHub className="mr-2 h-4 w-4" /> Github
@@ -207,6 +246,7 @@ const AuthForm = () => {
           fullWidth={true}
           variant="outline"
           type="button"
+          onClick={() => socialAction("google")}
           disabled={isLoading}
         >
           <Icons.google className="mr-2 h-4 w-4" /> Google

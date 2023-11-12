@@ -33,7 +33,7 @@ export const authOptions: AuthOptions = {
             email: credentials?.email,
           },
         });
-        console.log("BLOCK 1: " + user);
+
         if (!user || !user?.hashedPassword) {
           throw new Error("Invalid credentials");
         }
@@ -46,11 +46,10 @@ export const authOptions: AuthOptions = {
         if (!isCorrectPassword) {
           throw new Error("Your email or password is incorrect.");
         }
-        console.log(user);
 
         // Remove sensitive data before returning the user object
-        // const { hashedPassword, ...userWithoutPassword } = user;
-        return user;
+        const { hashedPassword, ...userWithoutPassword } = user;
+        return userWithoutPassword;
       },
     }),
   ],

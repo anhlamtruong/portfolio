@@ -14,13 +14,13 @@ datasource db {
 model User {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
   email             String?      @unique
-  username          String?     @unique 
+  username          String?      @unique
   name              String?     
   rolesIds          String[]    @db.ObjectId
   roles             Role[]      @relation(fields: [rolesIds], references: [id])
   profileId         String?     @db.ObjectId
   profile           Profile?    
-  status            UserStatus
+  status            UserStatus?
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   lastLogin         DateTime?

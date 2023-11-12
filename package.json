@@ -9,7 +9,10 @@
     "generate:prisma-mysql": "npx prisma generate --schema=./prisma/mysql/schema.prisma",
     "generate:prisma-mongo": "npx prisma generate --schema=./prisma/mongodb/schema.prisma",
     "generate:prisma-all": "npm run generate:prisma-mysql && npm run generate:prisma-mongo",
-    "dev": "npm run generate:prisma-all && next dev"
+    "push:prisma-mysql": "npx prisma db push --schema=./prisma/mysql/schema.prisma",
+    "push:prisma-mongo": "npx prisma db push --schema=./prisma/mongodb/schema.prisma",
+    "push:prisma-all": "npm run push:prisma-mysql && npm run push:prisma-mongo",
+    "dev": "npm run generate:prisma-all && npm run push:prisma-all && next dev"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
