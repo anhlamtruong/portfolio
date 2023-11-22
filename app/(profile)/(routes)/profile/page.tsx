@@ -1,6 +1,8 @@
-"use client";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-export default function ProfilePages() {
-  return <Button onClick={() => signOut()}> Log out </Button>;
+import getCurrentUser from "@/actions/getCurrentUser";
+
+export default async function ProfilePages() {
+  const user = await getCurrentUser();
+  return <Button> {user?.name} </Button>;
 }

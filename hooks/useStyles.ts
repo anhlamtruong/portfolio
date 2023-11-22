@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useTheme } from "../contexts/user_page/ThemeContext";
 import { sidebarItemStyles } from "@/app/(dashboard)/_styles/dashboard_styles";
+import { userProfileContainerStyles } from "@/app/(auth)/_styles/_user_button/user_button";
 
 export const useStyles = () => {
   const { themeColors, theme } = useTheme();
@@ -21,6 +22,7 @@ export const useStyles = () => {
 
   const styles = useMemo(() => {
     return {
+      ...userProfileContainerStyles(_themeObjects),
       ...sidebarItemStyles(_themeObjects),
       container: {
         background: backgroundPrimary,
@@ -40,6 +42,9 @@ export const useStyles = () => {
       },
       backgroundSecondary: {
         background: backgroundSecondary,
+      },
+      backgroundTertiary: {
+        background: backgroundTertiary,
       },
       containerWithBorder: {
         background: backgroundPrimary,
@@ -89,6 +94,7 @@ export const useStyles = () => {
     hoverText,
     _themeObjects,
     hoverBackground,
+    backgroundTertiary,
   ]);
 
   return styles;

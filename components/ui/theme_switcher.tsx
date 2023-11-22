@@ -64,14 +64,14 @@ const ThemeSwitcher: React.FC = () => {
   return (
     <div
       onClick={() => setIsOpen(!isOpen)}
-      className="relative font-medium inline-block rounded  text-lg align-middle"
+      className="relative font-medium inline-block rounded  text-md align-middle border"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
         style={containerStyle}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`p-2 rounded  transition ease-in-out 
+        className={`p-2 rounded-md  transition ease-in-out 
         focus:ring-2 focus:ring-offset-2 focus:outline-none`}
       >
         Theme Mode

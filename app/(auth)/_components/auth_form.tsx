@@ -4,6 +4,7 @@ import formConfig from "@/config/authentication/sign_in_form.json"; // adjust th
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+
 import {
   Form,
   FormControl,
@@ -15,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SignInForm } from "@/config/authentication/sign_in_form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icons } from "@/components/ui/icons";
 import { useStyles } from "@/hooks/useStyles";
@@ -30,7 +30,6 @@ const AuthForm = () => {
   const styles = useStyles();
   const router = useRouter();
 
-  const [config, setConfig] = useState<SignInForm | null>(null);
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
   const [isSessionLoading, setSessionIsLoading] = useState(false);
@@ -48,11 +47,6 @@ const AuthForm = () => {
     }
   }, [session?.status, router]);
 
-  useEffect(() => {
-    // Load the configuration (assuming it's a local JSON file)
-    setConfig(formConfig as SignInForm);
-  }, []);
-
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
@@ -68,10 +62,6 @@ const AuthForm = () => {
       password: "",
     },
   });
-
-  if (!config) {
-    return <Skeleton className="w-[100px] h-[20px] rounded-full" />; // or some loading indicator
-  }
 
   const {
     register,

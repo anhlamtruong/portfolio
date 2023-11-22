@@ -12,14 +12,18 @@
     "push:prisma-mysql": "npx prisma db push --schema=./prisma/mysql/schema.prisma",
     "push:prisma-mongo": "npx prisma db push --schema=./prisma/mongodb/schema.prisma",
     "push:prisma-all": "npm run push:prisma-mysql && npm run push:prisma-mongo",
-    "dev": "npm run generate:prisma-all && npm run push:prisma-all && next dev"
+    "generate": "npm run generate:prisma-all && npm run push:prisma-all && next dev",
+    "dev": "next dev"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@prisma/client": "^5.5.2",
+    "@prisma/client": "^5.6.0",
+    "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-hover-card": "^1.0.7",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@tailwindcss/forms": "^0.5.6",
@@ -37,6 +41,7 @@
     "lucide-react": "^0.288.0",
     "next": "13.4.12",
     "next-auth": "^4.24.4",
+    "next-cloudinary": "^5.7.0",
     "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -51,7 +56,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "prisma": "^5.5.2",
+    "prisma": "^5.6.0",
     "sass": "^1.69.5"
   }
 }

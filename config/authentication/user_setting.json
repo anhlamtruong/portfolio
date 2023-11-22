@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "fields": [
+      {
+        "name": "username",
+        "label": "Username",
+        "placeholder": "Username",
+        "description": "This is your public display username."
+      },
+      {
+        "name": "name",
+        "label": "name",
+        "placeholder": "Name",
+        "description": "This is your public display name."
+      },
+      {
+        "name": "email",
+        "label": "Email",
+        "placeholder": "cookit@lovetocook.com",
+        "description": "This is your email."
+      }
+    ],
+    "submitButtonLabel": "Save"
+  }
+}

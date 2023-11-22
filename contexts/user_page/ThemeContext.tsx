@@ -109,6 +109,7 @@ const themeColors: ThemeColors = {
     backgroundSecondaryOpacity: "rgba(45, 55, 72, 0.9)",
     backgroundTertiaryOpacity: "rgba(74, 85, 104, 0.9)",
     textPrimary: "#edf2f7",
+
     textSecondary: "#a0aec0",
     textTertiary: "#718096",
     textTint: "#e2e8f0",
