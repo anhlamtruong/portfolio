@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "./auth_input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icons } from "@/components/ui/icons";
@@ -35,12 +35,6 @@ const AuthForm = () => {
   const [isSessionLoading, setSessionIsLoading] = useState(false);
 
   useEffect(() => {
-    if (session?.status === "loading") {
-      setSessionIsLoading(true);
-    }
-    if (session?.status === "unauthenticated") {
-      setSessionIsLoading(false);
-    }
     if (session?.status === "authenticated") {
       setSessionIsLoading(false);
       router.push("/profile");

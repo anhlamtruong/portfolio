@@ -15,8 +15,65 @@ datasource db {
 
 model Store {
   id String @id @default(uuid())
-  name String
+  storeName String
   userId String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+}
+
+model Chef {
+  id                Int         @id @default(autoincrement())
+  userId            Int         // Link to the User ID in the authentication service
+  menus             Menu[]
+  schedules         ChefSchedule[]
+  // ... other fields specific to the chef ...
+}
+
+model Menu {
+  id                Int         @id @default(autoincrement())
+  chefId            Int
+  chef              Chef        @relation(fields: [chefId], references: [id])
+  orderItems      OrderItem[]   // Add this line to establish the opposite relation
+  title             String
+  description       String?
+  price             Float
+  availableDates    ChefSchedule[]
+  // ... other fields ...
+}
+
+model ChefSchedule {
+  id                Int         @id @default(autoincrement())
+  menuId            Int
+  chefId            Int
+  chef              Chef        @relation(fields: [chefId], references: [id])
+  menu              Menu        @relation(fields: [menuId], references: [id])
+  date              DateTime    // Date and time available for pickup
+  // ... other fields ...
+}
+
+model Order {
+  id                Int         @id @default(autoincrement())
+  customerId        Int         // Link to the User ID in the authentication service
+  orderItems        OrderItem[]
+  status            OrderStatus
+  orderDate         DateTime    @default(now())
+  pickupDate        DateTime?   // When the customer plans to pick up the order
+  // ... other fields ...
+}
+
+model OrderItem {
+  id                Int         @id @default(autoincrement())
+  orderId           Int
+  order             Order       @relation(fields: [orderId], references: [id])
+  menuId            Int
+  menu              Menu        @relation(fields: [menuId], references: [id])
+  quantity          Int
+  // ... other fields ...
+}
+
+enum OrderStatus {
+  PLACED
+  PAID
+  CANCELLED
+  COMPLETED
 }

@@ -34,16 +34,18 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Input } from "@/components/ui/input";
+import { Input } from "./auth_input";
 import { Icons } from "@/components/ui/icons";
 import { HoverAnimationWrapper } from "@/components/animation/theme_hover_component_wrapper";
-import useAsyncData from "@/hooks/useAsyncData";
+import useAsyncData from "@/hooks/useAsyncDataFetcher";
 import { User } from "@prisma-client-mongo";
 import LoadingCarrot from "@/components/ui/loading/loading-carrot";
 
-interface UserButtonModalProps {}
+interface UserButtonProps {
+  initialData: User | null;
+}
 
-const UserButton: React.FC<UserButtonModalProps> = () => {
+const UserButton: React.FC<UserButtonProps> = () => {
   const styles = useStyles();
   const router = useRouter();
   const [isUploadLoading, setIsUploadLoading] = useState(false);
@@ -185,7 +187,7 @@ const UserButton: React.FC<UserButtonModalProps> = () => {
                         control={authForm.control}
                         name={f.name}
                         render={({ field }) => (
-                          <FormItem className="w-full ">
+                          <FormItem className="w-full">
                             <FormLabel className=" sr-only" htmlFor={f.name}>
                               {f.label}
                             </FormLabel>

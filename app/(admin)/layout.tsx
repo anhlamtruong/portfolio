@@ -1,7 +1,12 @@
+import { ModalProvider } from "@/providers/modal_provider";
+
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className=" h-full">
-      <main>{children}</main>
+      <main>
+        <ModalProvider />
+        {children}
+      </main>
     </div>
   );
 };
