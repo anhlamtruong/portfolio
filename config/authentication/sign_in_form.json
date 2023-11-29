@@ -4,13 +4,13 @@
       "fields": [
         {
           "name": "email",
-          "label": "email",
+          "label": "Email",
           "placeholder": "Email address",
           "description": "Please enter your email address"
         },
         {
           "name": "password",
-          "label": "password",
+          "label": "Password",
           "placeholder": "Your password",
           "description": "Enter your password here."
         }
@@ -35,6 +35,12 @@
           "name": "password",
           "label": "Password",
           "placeholder": "Your password",
+          "description": "Enter your password here."
+        },
+        {
+          "name": "confirmPassword",
+          "label": "Confirm Password",
+          "placeholder": "Confirm Your password",
           "description": "Enter your password here."
         }
       ],

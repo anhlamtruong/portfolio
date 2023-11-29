@@ -3,7 +3,7 @@
 import formConfig from "@/config/authentication/sign_in_form.json"; // adjust the import path accordingly
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 import {
   Form,
@@ -14,7 +14,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "./auth_input";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icons } from "@/components/ui/icons";
@@ -22,6 +25,26 @@ import { useStyles } from "@/hooks/useStyles";
 import { toast } from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
+const formSchemaRegister = z
+  .object({
+    username: z.string().min(1),
+    email: z.string().email(),
+    password: z.string().min(4),
+    confirmPassword: z.string().min(4),
+  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+      });
+    }
+  });
+const formSchemaLogin = z.object({
+  email: z.string().email(),
+  password: z.string().min(4),
+});
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -49,38 +72,39 @@ const AuthForm = () => {
     }
   }, [variant]);
 
-  const authForm = useForm<FieldValues>({
+  const form = useForm<
+    z.infer<typeof formSchemaRegister> | z.infer<typeof formSchemaLogin>
+  >({
+    resolver: zodResolver(
+      variant === "LOGIN" ? formSchemaLogin : formSchemaRegister
+    ),
     defaultValues: {
-      username: "",
+      username: variant === "REGISTER" ? "" : undefined,
       email: "",
       password: "",
+      confirmPassword: variant === "REGISTER" ? "" : undefined,
     },
   });
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = authForm;
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  const onSubmit = async (
+    values: z.infer<typeof formSchemaRegister> | z.infer<typeof formSchemaLogin>
+  ) => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
       // Axios Register
       axios
-        .post("/api/register", data)
-        .then(() => signIn("credentials", data))
+        .post("/api/register", values)
+        .then(() => signIn("credentials", values))
         .catch(() => toast.error("Something went wrong!"))
         .finally(() => setIsLoading(false));
     }
-    console.log(data);
+    // console.log(values);
     if (variant === "LOGIN") {
       // NextAuth Sign In
 
       await signIn("credentials", {
-        ...data,
+        ...values,
         redirect: false,
       })
         .then((callback) => {
@@ -123,30 +147,23 @@ const AuthForm = () => {
     <Skeleton />
   ) : (
     <div className="justify-center self-center items-center flex flex-col gap-4 w-full h-full">
-      <Form {...authForm}>
-        <form onSubmit={authForm.handleSubmit(onSubmit)} className="space-y-2">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           {variant === "LOGIN" &&
             formConfig.variants.LOGIN.fields.map((f) => {
               return (
                 <FormField
                   key={f.name}
-                  control={authForm.control}
-                  name={f.name}
+                  control={form.control}
+                  name={f.name as any}
                   render={({ field }) => (
                     <FormItem className="w-full ">
-                      <FormLabel className=" sr-only" htmlFor={f.name}>
-                        {f.label}
-                      </FormLabel>
+                      <FormLabel>{f.label}</FormLabel>
                       <FormControl>
                         <Input
-                          className=" form-input"
-                          id={f.name}
+                          type={f.name}
                           placeholder={f.placeholder}
                           {...field}
-                          type={f.name}
-                          register={register}
-                          autoCorrect="off"
-                          errors={errors}
                           disabled={isLoading}
                         />
                       </FormControl>
@@ -162,23 +179,16 @@ const AuthForm = () => {
               return (
                 <FormField
                   key={f.name}
-                  control={authForm.control}
-                  name={f.name}
+                  control={form.control}
+                  name={f.name as any}
                   render={({ field }) => (
                     <FormItem className="w-full ">
-                      <FormLabel className=" sr-only" htmlFor={f.name}>
-                        {f.label}
-                      </FormLabel>
+                      <FormLabel>{f.label}</FormLabel>
                       <FormControl>
                         <Input
-                          className=" form-input"
-                          id={f.name}
                           placeholder={f.placeholder}
                           {...field}
                           type={f.name}
-                          register={register}
-                          autoCorrect="off"
-                          errors={errors}
                           disabled={isLoading}
                         />
                       </FormControl>

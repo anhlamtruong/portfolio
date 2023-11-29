@@ -33,6 +33,7 @@ model User {
   seenMessages Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
   accounts Account[]
   message Message[]
+  storeIds String[]
   // Other fields relevant to your application
 }
 

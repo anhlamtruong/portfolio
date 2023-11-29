@@ -15,8 +15,11 @@ datasource db {
 
 model Store {
   id String @id @default(uuid())
-  storeName String
+  name String @unique
+  
   userId String
+  menus      Menu[]
+  order Order[]
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
@@ -38,6 +41,8 @@ model Menu {
   description       String?
   price             Float
   availableDates    ChefSchedule[]
+  storeId    String
+  store      Store    @relation(fields: [storeId], references: [id])
   // ... other fields ...
 }
 
@@ -58,6 +63,8 @@ model Order {
   status            OrderStatus
   orderDate         DateTime    @default(now())
   pickupDate        DateTime?   // When the customer plans to pick up the order
+  storeId    String?
+  store      Store?    @relation(fields: [storeId], references: [id])
   // ... other fields ...
 }
 
@@ -68,6 +75,7 @@ model OrderItem {
   menuId            Int
   menu              Menu        @relation(fields: [menuId], references: [id])
   quantity          Int
+  
   // ... other fields ...
 }
 
