@@ -4,7 +4,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { CSSProperties } from "react";
 
-const LoadingCarrot: React.FC = () => {
+interface LoadingCarrotProps {
+  text?: String;
+}
+
+const LoadingCarrot: React.FC<LoadingCarrotProps> = ({
+  text,
+}: LoadingCarrotProps) => {
   const loadingContainer: CSSProperties = {
     width: "100%",
     height: "100vh",
@@ -37,7 +43,7 @@ const LoadingCarrot: React.FC = () => {
         {...carrotAnimation}
       />
       <motion.div>
-        Loading
+        {`${text ?? "Loading"} `}
         <motion.span {...dotAnimation}>.</motion.span>
         <motion.span {...dotAnimation} style={{ animationDelay: "0.2s" }}>
           .

@@ -22,21 +22,20 @@ const AdminPage: React.FC = ({}) => {
     if (!isOpen) {
       onOpen();
     }
-    if (data) {
+    if (data?.id) {
       onClose();
       router.push(`/admin/${data.id}`);
+      // window.location.assign(`/admin/${data.id}`);
     }
   }, [onOpen, isOpen, data, onClose, router]);
   if (isLoading) {
-    return <LoadingCarrot></LoadingCarrot>;
+    return <LoadingCarrot text={"Store is Loading"}></LoadingCarrot>;
   }
 
   return (
     <div>
       <ModalProvider />
-      <div className="text-3xl font-medium p-4">
-        <UserButton initialData={null}></UserButton>
-      </div>
+      <div className="text-3xl font-medium p-4">admin page</div>
     </div>
   );
 };

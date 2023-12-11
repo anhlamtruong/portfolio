@@ -50,7 +50,7 @@ const UserButton: React.FC<UserButtonProps> = () => {
   const router = useRouter();
   const [isUploadLoading, setIsUploadLoading] = useState(false);
 
-  const { data, isLoading, error } = useAsyncData<User>("api/user");
+  const { data, isLoading, error } = useAsyncData<User>("/api/user");
   const user = data;
 
   const authForm = useForm<FieldValues>({
@@ -117,7 +117,7 @@ const UserButton: React.FC<UserButtonProps> = () => {
   if (isLoading)
     return (
       <div>
-        <LoadingCarrot></LoadingCarrot>
+        <LoadingCarrot text={"Loading Account"}></LoadingCarrot>
       </div>
     );
 
