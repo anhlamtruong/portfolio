@@ -4,13 +4,13 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/contexts/user_page/ThemeContext";
 import ToasterContext from "@/contexts/user_page/ToasterContext";
 import AuthContext from "@/contexts/authentication/AuthContext";
+import { LoadingProvider } from "@/contexts/app_loading/app_loading";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Cookit",
-  description:
-    "Watch tutorials of cooking, or find the chief near by to others",
+  title: "Anh Portfolio",
+  description: "Crazy Enough",
 };
 
 export default function RootLayout({
@@ -19,15 +19,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <AuthContext>
-            <ToasterContext></ToasterContext>
-            {children}
-          </AuthContext>
-        </body>
-      </html>
-    </ThemeProvider>
+    <LoadingProvider>
+      <ThemeProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            <AuthContext>
+              <ToasterContext></ToasterContext>
+              {children}
+            </AuthContext>
+          </body>
+        </html>
+      </ThemeProvider>
+    </LoadingProvider>
   );
 }
