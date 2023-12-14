@@ -1,15 +1,17 @@
 import React, { useState, FC, ReactNode } from "react";
-
+import { cn } from "@/lib/utils";
 interface HoverAnimationWrapperProps {
   children: ReactNode;
   defaultStyle: React.CSSProperties;
   hoverStyle: React.CSSProperties;
+  className?: string;
 }
 
 export const HoverAnimationWrapper: FC<HoverAnimationWrapperProps> = ({
   children,
   defaultStyle,
   hoverStyle,
+  className,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -26,6 +28,7 @@ export const HoverAnimationWrapper: FC<HoverAnimationWrapperProps> = ({
   return (
     <div
       style={appliedStyle}
+      className={cn(className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
